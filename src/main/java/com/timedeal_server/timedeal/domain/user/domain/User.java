@@ -2,6 +2,7 @@ package com.timedeal_server.timedeal.domain.user.domain;
 
 import com.timedeal_server.timedeal.domain.item.domain.Item;
 import com.timedeal_server.timedeal.domain.order.domain.Orders;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -34,6 +35,13 @@ public class User {
     @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
     private List<Orders> ordersList;
 
-
+    @Builder
+    public User(String username, String password, String email, Role role, String address) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+        this.address = address;
+    }
 
 }
