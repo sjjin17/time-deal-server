@@ -19,6 +19,7 @@ public class User {
     @Column(name="user_id")
     private Long userId;
 
+
     private String username;
 
     private String password;
@@ -27,7 +28,8 @@ public class User {
 
     private Role role;
 
-    private String address;
+    @Embedded
+    private Address address;
 
     @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
     private List<Item> itemList;
@@ -36,7 +38,7 @@ public class User {
     private List<Orders> ordersList;
 
     @Builder
-    public User(String username, String password, String email, Role role, String address) {
+    public User(String username, String password, String email, Role role, Address address) {
         this.username = username;
         this.password = password;
         this.email = email;
