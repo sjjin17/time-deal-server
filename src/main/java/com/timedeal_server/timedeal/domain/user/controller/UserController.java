@@ -48,4 +48,16 @@ public class UserController {
 
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<? extends BasicResponse> logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        System.out.println(session);
+        if (session != null) {
+            // 세션 제거
+            session.invalidate();
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new CommonResponse<>("로그아웃 성공"));
+    }
+
 }
