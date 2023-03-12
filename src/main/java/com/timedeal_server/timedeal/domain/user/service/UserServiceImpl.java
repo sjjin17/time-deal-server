@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @Service
@@ -35,6 +36,14 @@ public class UserServiceImpl implements UserService{
         return userRepository.findByUsername(userLoginDTO.getUsername())
                 .filter(u -> u.getPassword().equals(userLoginDTO.getPassword()))
                 .orElseThrow(() -> new CustomException("아이디 또는 비밀번호가 일치하지 않습니다."));
+
+
+    }
+
+    @Override
+    public Long deleteUser(User loginUser) {
+        userRepository.delete(loginUser);
+        return loginUser.getUserId();
 
 
     }
