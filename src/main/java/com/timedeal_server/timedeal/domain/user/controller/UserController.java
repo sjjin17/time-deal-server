@@ -6,14 +6,13 @@ import com.timedeal_server.timedeal.domain.user.dto.request.UserReqDTO;
 import com.timedeal_server.timedeal.domain.user.service.UserService;
 import com.timedeal_server.timedeal.global.api.BasicResponse;
 import com.timedeal_server.timedeal.global.api.CommonResponse;
+import com.timedeal_server.timedeal.global.auth.LoginUser;
+import com.timedeal_server.timedeal.global.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -51,13 +50,21 @@ public class UserController {
     @PostMapping("/logout")
     public ResponseEntity<? extends BasicResponse> logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
-        System.out.println(session);
         if (session != null) {
             // 세션 제거
             session.invalidate();
         }
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new CommonResponse<>("로그아웃 성공"));
+    }
+
+
+    @DeleteMapping("/users")
+    public ResponseEntity<? extends BasicResponse> deleteUser(@LoginUser User user) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new CommonResponse<>(userService.deleteUser(user)));
+
+
     }
 
 }
