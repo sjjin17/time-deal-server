@@ -4,14 +4,19 @@ import com.timedeal_server.timedeal.domain.order.domain.OrderItem;
 import com.timedeal_server.timedeal.domain.user.domain.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Item {
 
     @Id
@@ -22,6 +27,7 @@ public class Item {
     private String name;
 
     private int price;
+
     private int salePrice;
 
     private int stockQuantity;
@@ -30,6 +36,17 @@ public class Item {
     private String detail;
 
     private LocalDateTime startDate;
+
+    private String titleImage;
+
+    @OneToMany(mappedBy = "item")
+    private List<ItemImage> itemImageList;
+
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="seller_id")
