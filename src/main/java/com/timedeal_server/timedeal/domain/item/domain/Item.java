@@ -22,6 +22,7 @@ public class Item {
     private String name;
 
     private int price;
+    private int salePrice;
 
     private int stockQuantity;
 

@@ -12,7 +12,6 @@ import javax.servlet.http.HttpSession;
 public class LoginCheckInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        log.info("인터셉트 실행");
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("loginUser") == null) {
             throw new CustomException("로그인해주세요");
