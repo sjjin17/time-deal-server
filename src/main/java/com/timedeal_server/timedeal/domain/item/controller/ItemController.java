@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,5 +22,11 @@ public class ItemController {
     public ResponseEntity<? extends BasicResponse> getAllItems() {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new CommonResponse<>(itemService.getAllItems()));
+    }
+
+    @GetMapping("/{itemId}")
+    public ResponseEntity<? extends BasicResponse> getItem(@PathVariable Long itemId) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new CommonResponse<>(itemService.getItem(itemId)));
     }
 }
