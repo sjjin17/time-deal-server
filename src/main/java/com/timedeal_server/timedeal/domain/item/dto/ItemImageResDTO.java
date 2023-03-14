@@ -25,4 +25,6 @@ public class ItemImageResDTO {
                 .imgUrl(itemImage.getImgUrl())
                 .build();
     }
+
+
 }

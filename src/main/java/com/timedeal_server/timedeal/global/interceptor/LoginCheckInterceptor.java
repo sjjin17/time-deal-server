@@ -14,6 +14,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("loginUser") == null) {
+
             throw new CustomException("로그인해주세요");
         }
         return true;
