@@ -27,7 +27,7 @@ public class UserServiceImplTest {
         UserReqDTO userReqDTO = UserReqDTO.builder()
                 .username("test")
                 .password("hellotest111*")
-                .role(Role.GENERAL)
+                .role(Role.USER)
                 .email("test@naver.com")
                 .build();
         userService.join(userReqDTO);

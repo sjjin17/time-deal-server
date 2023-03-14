@@ -6,8 +6,7 @@ import com.timedeal_server.timedeal.domain.user.dto.request.UserReqDTO;
 import com.timedeal_server.timedeal.domain.user.service.UserService;
 import com.timedeal_server.timedeal.global.api.BasicResponse;
 import com.timedeal_server.timedeal.global.api.CommonResponse;
-import com.timedeal_server.timedeal.global.auth.LoginUser;
-import com.timedeal_server.timedeal.global.exception.CustomException;
+import com.timedeal_server.timedeal.global.auth.Auth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,7 +58,7 @@ public class UserController {
 
 
     @DeleteMapping("/users")
-    public ResponseEntity<? extends BasicResponse> deleteUser(@LoginUser User user) {
+    public ResponseEntity<? extends BasicResponse> deleteUser(@Auth User user) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new CommonResponse<>(userService.deleteUser(user)));
 

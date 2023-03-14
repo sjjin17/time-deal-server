@@ -1,6 +1,8 @@
 package com.timedeal_server.timedeal.global.auth;
 
+import com.timedeal_server.timedeal.domain.user.domain.Role;
 import com.timedeal_server.timedeal.domain.user.domain.User;
+import com.timedeal_server.timedeal.global.exception.CustomException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -16,7 +18,7 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        boolean hasLoginAnnotaion = parameter.hasParameterAnnotation(LoginUser.class);
+        boolean hasLoginAnnotaion = parameter.hasParameterAnnotation(Auth.class);
         boolean isUserType = User.class.isAssignableFrom(parameter.getParameterType());
         return hasLoginAnnotaion && isUserType;
     }
@@ -25,11 +27,23 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         HttpSession session = request.getSession(false);
+        Auth auth = parameter.getParameterAnnotation(Auth.class);
+
         if (session == null) {
             return null;
         }
-        User loginUser = (User) session.getAttribute("loginUser");
-        return loginUser;
+        User user = (User) session.getAttribute("loginUser");
+        String role = auth.role().toString();
+        System.out.println(role);
+
+        if ("ADMIN".equals(role)) {
+            if (role.equals(user.getRole().toString())) {
+                return user;
+            } else {
+                throw new CustomException("권한이 없습니다.");
+            }
+        }
+        return user;
 
     }
 }

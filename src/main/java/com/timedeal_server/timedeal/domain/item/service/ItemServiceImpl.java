@@ -3,7 +3,9 @@ package com.timedeal_server.timedeal.domain.item.service;
 import com.timedeal_server.timedeal.domain.item.domain.Item;
 import com.timedeal_server.timedeal.domain.item.dto.ItemDetailResDTO;
 import com.timedeal_server.timedeal.domain.item.dto.ItemListResDTO;
+import com.timedeal_server.timedeal.domain.item.dto.ItemReqDTO;
 import com.timedeal_server.timedeal.domain.item.repository.ItemRepository;
+import com.timedeal_server.timedeal.domain.user.domain.User;
 import com.timedeal_server.timedeal.global.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,5 +32,14 @@ public class ItemServiceImpl implements ItemService {
     public ItemDetailResDTO getItem(Long itemId) {
         Item item = itemRepository.findById(itemId).orElseThrow(() -> new CustomException("존재하지 않는 상품입니다."));
         return ItemDetailResDTO.toResDTO(item);
+    }
+
+    @Override
+    public Long createItem(ItemReqDTO itemReqDTO, User user) {
+        Item item = ItemReqDTO.toEntity(itemReqDTO, user);
+        itemRepository.save(item);
+        return item.getItemId();
+
+
     }
 }
