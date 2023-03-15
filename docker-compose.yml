@@ -1,0 +1,10 @@
+
+version: "3"
+
+services:
+  backend:
+    container_name: timedeal
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
