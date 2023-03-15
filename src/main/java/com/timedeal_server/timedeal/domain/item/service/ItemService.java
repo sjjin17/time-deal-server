@@ -16,4 +16,6 @@ public interface ItemService {
     Long createItem(ItemReqDTO itemReqDTO, User user);
 
     Long updateItem(Long itemId, ItemReqDTO itemReqDTO);
+
+    Long deleteItem(Long itemId);
 }
