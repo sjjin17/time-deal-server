@@ -58,4 +58,11 @@ public class ItemServiceImpl implements ItemService {
         itemRepository.deleteById(itemId);
         return itemId;
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ItemListResDTO> getMyItem(User user) {
+        List<Item> itemList = itemRepository.findAllByUserUserId(user.getUserId());
+        return itemList.stream().map(item -> ItemListResDTO.toResDTO(item)).collect(Collectors.toList());
+    }
 }

@@ -41,7 +41,7 @@ public class ItemReqDTO {
         this.titleImage = titleImage;
     }
 
-    public static Item toEntity(ItemReqDTO itemReqDTO, User seller) {
+    public static Item toEntity(ItemReqDTO itemReqDTO, User user) {
         return Item.builder()
                 .name(itemReqDTO.getName())
                 .price(itemReqDTO.getPrice())
@@ -50,7 +50,7 @@ public class ItemReqDTO {
                 .detail(itemReqDTO.getDetail())
                 .startDate(LocalDateTime.parse(itemReqDTO.getStartDate()))
                 .titleImage(itemReqDTO.getTitleImage())
-                .seller(seller)
+                .user(user)
                 .build();
 
     }

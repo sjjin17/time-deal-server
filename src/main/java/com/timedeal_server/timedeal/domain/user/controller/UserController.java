@@ -1,5 +1,7 @@
 package com.timedeal_server.timedeal.domain.user.controller;
 
+import com.timedeal_server.timedeal.domain.item.service.ItemService;
+import com.timedeal_server.timedeal.domain.order.service.OrderService;
 import com.timedeal_server.timedeal.domain.user.domain.User;
 import com.timedeal_server.timedeal.domain.user.dto.request.UserLoginDTO;
 import com.timedeal_server.timedeal.domain.user.dto.request.UserReqDTO;
@@ -17,16 +19,19 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/accounts")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
+    private final ItemService itemService;
+
+    private final OrderService orderService;
+
     /**
      * 회원 가입
      */
-    @PostMapping("/signup")
+    @PostMapping("/accounts/signup")
     public ResponseEntity<? extends BasicResponse> signup(@RequestBody @Valid UserReqDTO userReqDTO) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new CommonResponse<>(userService.join(userReqDTO)));
@@ -35,7 +40,7 @@ public class UserController {
     /**
      * 로그인
      */
-    @PostMapping("/login")
+    @PostMapping("/accounts/login")
     public ResponseEntity<? extends BasicResponse> login(@RequestBody UserLoginDTO userLoginDTO, HttpServletRequest request){
         User user = userService.login(userLoginDTO);
         HttpSession session = request.getSession();
@@ -45,7 +50,7 @@ public class UserController {
 
     }
 
-    @PostMapping("/logout")
+    @PostMapping("/accounts/logout")
     public ResponseEntity<? extends BasicResponse> logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {
@@ -65,4 +70,15 @@ public class UserController {
 
     }
 
+    @GetMapping("/users/orders")
+    public ResponseEntity<? extends BasicResponse> getMyOrder(@Auth User user) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new CommonResponse<>(orderService.getMyOrder(user)));
+    }
+
+    @GetMapping("/users/items")
+    public ResponseEntity<? extends BasicResponse> getMyItem(@Auth(role= Auth.Role.ADMIN) User user) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new CommonResponse<>(itemService.getMyItem(user)));
+    }
 }
