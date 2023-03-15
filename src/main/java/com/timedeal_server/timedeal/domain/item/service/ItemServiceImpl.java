@@ -42,4 +42,13 @@ public class ItemServiceImpl implements ItemService {
 
 
     }
+
+    @Override
+    public Long updateItem(Long itemId, ItemReqDTO itemReqDTO) {
+        Item item = itemRepository.findById(itemId).orElseThrow(() -> new CustomException("존재하지 않는 상품입니다."));
+        item.updateItem(itemReqDTO.getName(), itemReqDTO.getPrice(), itemReqDTO.getSalePrice(), itemReqDTO.getStockQuantity(), itemReqDTO.getDetail(), itemReqDTO.getStartDate(), itemReqDTO.getTitleImage());
+        return item.getItemId();
+
+
+    }
 }

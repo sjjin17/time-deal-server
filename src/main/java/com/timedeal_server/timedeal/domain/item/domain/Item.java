@@ -1,5 +1,6 @@
 package com.timedeal_server.timedeal.domain.item.domain;
 
+import com.timedeal_server.timedeal.domain.item.dto.ItemReqDTO;
 import com.timedeal_server.timedeal.domain.order.domain.OrderItem;
 import com.timedeal_server.timedeal.domain.user.domain.User;
 import lombok.Builder;
@@ -69,6 +70,15 @@ public class Item {
         this.seller = seller;
     }
 
+    public void updateItem(String name, int price, int salePrice, int stockQuantity, String detail, String startDate, String titleImage) {
+        this.name = name;
+        this.price = price;
+        this.salePrice = salePrice;
+        this.stockQuantity = stockQuantity;
+        this.detail = detail;
+        this.startDate = LocalDateTime.parse(startDate);
+        this.titleImage = titleImage;
+    }
 
 
 

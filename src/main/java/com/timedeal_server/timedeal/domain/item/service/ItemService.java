@@ -1,5 +1,6 @@
 package com.timedeal_server.timedeal.domain.item.service;
 
+import com.timedeal_server.timedeal.domain.item.domain.Item;
 import com.timedeal_server.timedeal.domain.item.dto.ItemDetailResDTO;
 import com.timedeal_server.timedeal.domain.item.dto.ItemListResDTO;
 import com.timedeal_server.timedeal.domain.item.dto.ItemReqDTO;
@@ -13,4 +14,6 @@ public interface ItemService {
     ItemDetailResDTO getItem(Long itemId);
 
     Long createItem(ItemReqDTO itemReqDTO, User user);
+
+    Long updateItem(Long itemId, ItemReqDTO itemReqDTO);
 }
