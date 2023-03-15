@@ -41,4 +41,10 @@ public class ItemController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new CommonResponse<>(itemService.updateItem(itemId, itemReqDTO)));
     }
+
+    @DeleteMapping("/{itemId}")
+    public ResponseEntity<? extends BasicResponse> deleteItem(@PathVariable Long itemId, @Auth(role=Auth.Role.ADMIN) User user) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new CommonResponse<>(itemService.deleteItem(itemId)));
+    }
 }
