@@ -2,10 +2,12 @@ package com.timedeal_server.timedeal.domain.order.domain;
 
 
 import com.timedeal_server.timedeal.domain.item.domain.Item;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
 
 @Entity
 @Getter
@@ -27,5 +29,18 @@ public class OrderItem {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="item_id")
     private Item item;
+
+    @Builder
+    public OrderItem(int price, Item item) {
+        this.price = price;
+        this.count = 1;
+        this.item = item;
+    }
+
+    public void addOrder(Orders order) {
+        this.order = order;
+    }
+
+
 
 }

@@ -3,6 +3,7 @@ package com.timedeal_server.timedeal.domain.item.domain;
 import com.timedeal_server.timedeal.domain.item.dto.ItemReqDTO;
 import com.timedeal_server.timedeal.domain.order.domain.OrderItem;
 import com.timedeal_server.timedeal.domain.user.domain.User;
+import com.timedeal_server.timedeal.global.exception.CustomException;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -80,6 +81,14 @@ public class Item {
         this.titleImage = titleImage;
     }
 
+
+    public void removeStock(int count) {
+        int restCnt = stockQuantity - count;
+        if (restCnt < 0) {
+            throw new CustomException("재고가 부족합니다.");
+        }
+        this.stockQuantity = restCnt;
+    }
 
 
 
