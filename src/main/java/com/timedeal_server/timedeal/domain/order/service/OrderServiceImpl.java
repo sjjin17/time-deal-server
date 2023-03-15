@@ -1,10 +1,13 @@
 package com.timedeal_server.timedeal.domain.order.service;
 
 import com.timedeal_server.timedeal.domain.item.domain.Item;
+import com.timedeal_server.timedeal.domain.item.dto.ItemResDTO;
 import com.timedeal_server.timedeal.domain.item.repository.ItemRepository;
 import com.timedeal_server.timedeal.domain.order.domain.OrderItem;
 import com.timedeal_server.timedeal.domain.order.domain.OrderStatus;
 import com.timedeal_server.timedeal.domain.order.domain.Orders;
+import com.timedeal_server.timedeal.domain.order.dto.OrderItemResDTO;
+import com.timedeal_server.timedeal.domain.order.dto.OrderResDTO;
 import com.timedeal_server.timedeal.domain.order.repository.OrderItemRepository;
 import com.timedeal_server.timedeal.domain.order.repository.OrderRepository;
 import com.timedeal_server.timedeal.domain.user.domain.User;
@@ -16,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -51,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
         // 주문 생성
         Orders order = Orders.builder()
                 .orderDate(LocalDateTime.now())
-                .buyer(user)
+                .user(user)
                 .status(OrderStatus.ORDER)
                 .orderItemList(orderItemList)
                 .build();
@@ -59,5 +64,19 @@ public class OrderServiceImpl implements OrderService {
         orderItem.addOrder(orderRepository.findById(order.getOrderId()).orElseThrow(() -> new CustomException("존재하지 않는 상품입니다.")));
         orderItemRepository.save(orderItem);
         return order.getOrderId();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<OrderResDTO> getMyOrder(User user) {
+        List<Orders> orderList = orderRepository.findAllByUserUserId(user.getUserId()).orElseThrow(() -> new CustomException("주문 내역이 없습니다."));
+        List<OrderResDTO> orderResDTOList = new ArrayList<>();
+        for (Orders order : orderList) {
+            List<OrderItem> orderItemList = orderItemRepository.findByOrderOrderId(order.getOrderId());
+            List<OrderItemResDTO> orderItemResDTOList = orderItemList.stream().map(orderItem -> OrderItemResDTO.toDto(orderItem)).collect(Collectors.toList());
+            orderResDTOList.add(OrderResDTO.toDto(order, orderItemResDTOList));
+
+        }
+        return orderResDTOList;
     }
 }

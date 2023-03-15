@@ -25,17 +25,17 @@ public class Orders {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="buyer_id")
-    private User buyer;
+    private User user;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItemList;
 
 
     @Builder
-    public Orders(LocalDateTime orderDate, OrderStatus status, User buyer, List<OrderItem> orderItemList) {
+    public Orders(LocalDateTime orderDate, OrderStatus status, User user, List<OrderItem> orderItemList) {
         this.orderDate = orderDate;
         this.status = status;
-        this.buyer = buyer;
+        this.user = user;
         this.orderItemList = orderItemList;
     }
 
