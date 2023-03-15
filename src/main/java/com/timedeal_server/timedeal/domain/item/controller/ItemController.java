@@ -31,8 +31,14 @@ public class ItemController {
     }
 
     @PostMapping
-    public ResponseEntity<? extends BasicResponse> createItem(@Auth(role= Auth.Role.ADMIN) User user, @RequestBody ItemReqDTO itemReqDTO) {
+    public ResponseEntity<? extends BasicResponse> createItem(@Auth(role=Auth.Role.ADMIN) User user, @RequestBody ItemReqDTO itemReqDTO) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new CommonResponse<>(itemService.createItem(itemReqDTO, user)));
+    }
+
+    @PutMapping("/{itemId}")
+    public ResponseEntity<? extends BasicResponse> updateItem(@PathVariable Long itemId, @Auth(role=Auth.Role.ADMIN) User user, @RequestBody ItemReqDTO itemReqDTO) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new CommonResponse<>(itemService.updateItem(itemId, itemReqDTO)));
     }
 }
