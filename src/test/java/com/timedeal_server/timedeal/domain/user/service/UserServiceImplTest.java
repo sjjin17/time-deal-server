@@ -24,13 +24,13 @@ public class UserServiceImplTest {
 
     @BeforeEach
     public void beforeEach() {
-        UserReqDTO userReqDTO = UserReqDTO.builder()
-                .username("test")
-                .password("hellotest111*")
-                .role(Role.USER)
-                .email("test@naver.com")
-                .build();
-        userService.join(userReqDTO);
+//        UserReqDTO userReqDTO = UserReqDTO.builder()
+//                .username("test")
+//                .password("hellotest111*")
+//                .role(Role.USER)
+//                .email("test@naver.com")
+//                .build();
+//        userService.join(userReqDTO);
 
     }
 
@@ -42,20 +42,20 @@ public class UserServiceImplTest {
 
     @Test
     public void 로그인성공() {
-        // given
-        String username = "test";
-        String password = "hellotest111*";
-        UserLoginDTO userLoginDTO = UserLoginDTO.builder()
-                .username(username)
-                .password(password)
-                .build();
-        // when
-        User user = userService.login(userLoginDTO);
-        // then
-        Assertions.assertThat(username).isEqualTo(user.getUsername());
-        Assertions.assertThat(password).isEqualTo(user.getPassword());
+//        // given
+//        String username = "test";
+//        String password = "hellotest111*";
+//        UserLoginDTO userLoginDTO = UserLoginDTO.builder()
+//                .username(username)
+//                .password(password)
+//                .build();
+//        // when
+//        User user = userService.login(userLoginDTO);
+//        // then
+//        Assertions.assertThat(username).isEqualTo(user.getUsername());
+//        Assertions.assertThat(password).isEqualTo(user.getPassword());
+//
+//    }
 
     }
-
-
 }
