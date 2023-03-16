@@ -4,6 +4,7 @@ services:
   web:
     container_name: timedeal
     build:
+      context: .
       dockerfile: Dockerfile
     image: time-deal-server
     restart: always
@@ -25,7 +26,7 @@ services:
     volumes:
       - "/home/ubuntu/mysql:/var/lib/mysql"
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DBNAME}
       MYSQL_USER: ${MYSQL_USERNAME}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
