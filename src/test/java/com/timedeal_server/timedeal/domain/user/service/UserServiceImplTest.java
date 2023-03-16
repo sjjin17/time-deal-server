@@ -16,11 +16,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UserServiceImplTest {
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private UserRepository userRepository;
+//    @Autowired
+//    private UserService userService;
+//
+//    @Autowired
+//    private UserRepository userRepository;
 //
 //    @BeforeEach
 //    public void beforeEach() {
