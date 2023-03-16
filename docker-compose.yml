@@ -1,10 +1,50 @@
-
-version: "3"
+version: "3.8"
 
 services:
-  backend:
+  web:
     container_name: timedeal
     build:
       dockerfile: Dockerfile
+    image: time-deal-server
+    restart: always
+    depends_on:
+      - mysql
     ports:
       - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: ${mysql_url}
+      SPRING_DATASOURCE_USERNAME: ${mysql_username}
+      SPRING_DATASOURCE_PASSWORD: ${mysql_password}
+      TZ: "Asia/Seoul"
+  mysql:
+    image: mysql
+    container_name: mysql-container
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - "/home/ubuntu/mysql:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${mysql_root_password}
+      MYSQL_DATABASE: ${mysql_dbname}
+      MYSQL_USER: ${mysql_username}
+      MYSQL_PASSWORD: ${mysql_password}
+      TZ: "Asia/Seoul"
+    command:
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_general_ci"
+  controller:
+    image: ngrinder/controller
+    restart: always
+    ports:
+      - "8081:80"
+      - "16001:16001"
+      - "12000-12009:12000-12009"
+    volumes:
+      - ./ngrinder-controller:/opt/ngrinder-controller
+  agent:
+    image: ngrinder/agent
+    restart: always
+    links:
+      - controller
+
