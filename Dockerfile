@@ -12,7 +12,7 @@ RUN chmod +x ./gradlew
 
 FROM openjdk:11
 
-COPY --from=builder /app/build/libs/*.jar app.jar
+COPY --from=builder /build/libs/*.jar app.jar
 
 EXPOSE 8080
 
