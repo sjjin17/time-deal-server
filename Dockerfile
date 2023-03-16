@@ -1,19 +1,9 @@
-FROM openjdk:11 AS builder
+FROM openjdk:11
 
 WORKDIR /app
 
-COPY gradlew .
-COPY gradle gradle
-COPY build.gradle .
-COPY settings.gradle .
-COPY src src
+ARG JAR_FILE=./build/libs/timedeal-0.0.1-SNAPSHOT.jar
 
-RUN chmod +x ./gradlew
-
-FROM openjdk:11
-
-COPY --from=builder /build/libs/*.jar app.jar
-
-EXPOSE 8080
+COPY  /app/build/libs/*.jar app/app.jar
 
 ENTRYPOINT ["java","-jar","app.jar"]
