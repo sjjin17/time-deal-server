@@ -21,9 +21,9 @@ public class UserServiceImplTest {
 
     @Autowired
     private UserRepository userRepository;
-
-    @BeforeEach
-    public void beforeEach() {
+//
+//    @BeforeEach
+//    public void beforeEach() {
 //        UserReqDTO userReqDTO = UserReqDTO.builder()
 //                .username("test")
 //                .password("hellotest111*")
@@ -31,17 +31,17 @@ public class UserServiceImplTest {
 //                .email("test@naver.com")
 //                .build();
 //        userService.join(userReqDTO);
-
-    }
-
-    @AfterEach
-    public void afterEach() {
-        userRepository.deleteAll();
-    }
-
-
-    @Test
-    public void 로그인성공() {
+//
+//    }
+//
+//    @AfterEach
+//    public void afterEach() {
+//        userRepository.deleteAll();
+//    }
+//
+//
+//    @Test
+//    public void 로그인성공() {
 //        // given
 //        String username = "test";
 //        String password = "hellotest111*";
@@ -57,5 +57,5 @@ public class UserServiceImplTest {
 //
 //    }
 
-    }
+
 }
