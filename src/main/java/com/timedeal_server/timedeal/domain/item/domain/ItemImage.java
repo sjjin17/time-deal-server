@@ -1,5 +1,6 @@
 package com.timedeal_server.timedeal.domain.item.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,6 +23,10 @@ public class ItemImage {
     private Item item;
 
 
-
+    @Builder
+    public ItemImage(String imgUrl, Item item) {
+        this.imgUrl = imgUrl;
+        this.item = item;
+    }
 
 }

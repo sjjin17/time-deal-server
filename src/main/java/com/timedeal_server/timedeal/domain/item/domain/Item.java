@@ -42,6 +42,8 @@ public class Item {
 
     private LocalDateTime startDate;
 
+    private String folderPath;
+
     private String titleImage;
 
     @OneToMany(mappedBy = "item")
@@ -62,13 +64,14 @@ public class Item {
 
 
     @Builder
-    public Item(String name, int price, int salePrice, int stockQuantity, String detail, LocalDateTime startDate, String titleImage, User user) {
+    public Item(String name, int price, int salePrice, int stockQuantity, String detail, LocalDateTime startDate, String folderPath, String titleImage, User user) {
         this.name = name;
         this.price = price;
         this.salePrice = salePrice;
         this.stockQuantity = stockQuantity;
         this.detail = detail;
         this.startDate = startDate;
+        this.folderPath = folderPath;
         this.titleImage = titleImage;
         this.user = user;
     }

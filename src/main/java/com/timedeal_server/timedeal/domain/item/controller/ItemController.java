@@ -11,6 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/items")
@@ -31,9 +35,9 @@ public class ItemController {
     }
 
     @PostMapping
-    public ResponseEntity<? extends BasicResponse> createItem(@Auth(role=Auth.Role.ADMIN) User user, @RequestBody ItemReqDTO itemReqDTO) {
+    public ResponseEntity<? extends BasicResponse> createItem(@Auth(role=Auth.Role.ADMIN) User user, @RequestPart(value="itemReqDTO") ItemReqDTO itemReqDTO, @RequestPart(value="title") MultipartFile titleFile, @RequestPart(value="images") List<MultipartFile> itemFile) throws IOException {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new CommonResponse<>(itemService.createItem(itemReqDTO, user)));
+                .body(new CommonResponse<>(itemService.createItem(itemReqDTO, user, titleFile, itemFile)));
     }
 
     @PutMapping("/{itemId}")
