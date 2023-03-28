@@ -8,7 +8,7 @@ import javax.persistence.LockModeType;
 import java.util.List;
 
 public interface ItemRepository extends JpaRepository<Item, Long> {
-    @Lock(value= LockModeType.PESSIMISTIC_READ)
+    @Lock(value= LockModeType.PESSIMISTIC_WRITE)
     Item findByItemId(Long itemId);
 
     List<Item> findAllByUserUserId(Long userId);
