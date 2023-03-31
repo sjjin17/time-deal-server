@@ -1,10 +1,12 @@
 package com.timedeal_server.timedeal.domain.item.dto;
 
 import com.timedeal_server.timedeal.domain.item.domain.Item;
+import com.timedeal_server.timedeal.domain.item.domain.ItemImage;
 import com.timedeal_server.timedeal.domain.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,24 +26,18 @@ public class ItemReqDTO {
 
     private String startDate;
 
-    private String titleImage;
-
-    //private List<String> imageList;
-
-
 
     @Builder
-    public ItemReqDTO(String name, int price, int salePrice, int stockQuantity, String detail, String startDate, String titleImage) {
+    public ItemReqDTO(String name, int price, int salePrice, int stockQuantity, String detail, String startDate) {
         this.name = name;
         this.price = price;
         this.salePrice = salePrice;
         this.stockQuantity = stockQuantity;
         this.detail = detail;
         this.startDate = startDate;
-        this.titleImage = titleImage;
     }
 
-    public static Item toEntity(ItemReqDTO itemReqDTO, User user) {
+    public static Item toEntity(ItemReqDTO itemReqDTO,String folderPath, User user) {
         return Item.builder()
                 .name(itemReqDTO.getName())
                 .price(itemReqDTO.getPrice())
@@ -49,7 +45,7 @@ public class ItemReqDTO {
                 .stockQuantity(itemReqDTO.getStockQuantity())
                 .detail(itemReqDTO.getDetail())
                 .startDate(LocalDateTime.parse(itemReqDTO.getStartDate()))
-                .titleImage(itemReqDTO.getTitleImage())
+                .folderPath(folderPath)
                 .user(user)
                 .build();
 

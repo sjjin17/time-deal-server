@@ -18,14 +18,17 @@ public class ItemListResDTO {
     private int stockQuantity;
     private String startDate;
 
+    private String titleImage;
+
     @Builder
-    public ItemListResDTO(Long itemId, String name, int price, int salePrice, int stockQuantity, String startDate) {
+    public ItemListResDTO(Long itemId, String name, int price, int salePrice, int stockQuantity, String startDate, String titleImage) {
         this.itemId = itemId;
         this.name = name;
         this.price = price;
         this.salePrice = salePrice;
         this.stockQuantity = stockQuantity;
         this.startDate = startDate;
+        this.titleImage = titleImage;
     }
 
 
@@ -37,6 +40,7 @@ public class ItemListResDTO {
                 .salePrice(item.getSalePrice())
                 .stockQuantity(item.getStockQuantity())
                 .startDate(item.getStartDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .titleImage(item.getTitleImage())
                 .build();
     }
 }
