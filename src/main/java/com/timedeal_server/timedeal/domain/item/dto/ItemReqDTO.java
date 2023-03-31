@@ -26,11 +26,6 @@ public class ItemReqDTO {
 
     private String startDate;
 
-//    private MultipartFile titleImage;
-//
-//    private List<MultipartFile> imageList;
-
-
 
     @Builder
     public ItemReqDTO(String name, int price, int salePrice, int stockQuantity, String detail, String startDate) {
@@ -40,11 +35,9 @@ public class ItemReqDTO {
         this.stockQuantity = stockQuantity;
         this.detail = detail;
         this.startDate = startDate;
-//        this.titleImage = titleImage;
-//        this.imageList = imageList;
     }
 
-    public static Item toEntity(ItemReqDTO itemReqDTO, String folderPath, String titleImage, User user) {
+    public static Item toEntity(ItemReqDTO itemReqDTO,String folderPath, User user) {
         return Item.builder()
                 .name(itemReqDTO.getName())
                 .price(itemReqDTO.getPrice())
@@ -53,7 +46,6 @@ public class ItemReqDTO {
                 .detail(itemReqDTO.getDetail())
                 .startDate(LocalDateTime.parse(itemReqDTO.getStartDate()))
                 .folderPath(folderPath)
-                .titleImage(titleImage)
                 .user(user)
                 .build();
 

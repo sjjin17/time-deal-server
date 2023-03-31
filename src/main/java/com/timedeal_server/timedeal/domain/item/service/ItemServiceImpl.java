@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
     private final ItemImageRepository itemImageRepository;
-
+    private final ItemImageService itemImageService;
     private final S3Util s3Util;
 
     @Override
@@ -47,19 +47,10 @@ public class ItemServiceImpl implements ItemService {
     public Long createItem(ItemReqDTO itemReqDTO, User user, MultipartFile titleFile, List<MultipartFile> itemFiles) throws IOException {
         String folderPath = UUID.randomUUID().toString();
         s3Util.createFolder(folderPath);
-        String titleImage = s3Util.fileUpload(titleFile, folderPath);
-        Item item = ItemReqDTO.toEntity(itemReqDTO, folderPath, titleImage, user);
-        for (MultipartFile image : itemFiles) {
-            String itemImageUrl = s3Util.fileUpload(image, folderPath);
-            ItemImage itemImage = ItemImage.builder()
-                    .imgUrl(itemImageUrl)
-                    .item(item)
-                    .build();
-            itemImageRepository.save(itemImage);
-
-        }
-
+        Item item = ItemReqDTO.toEntity(itemReqDTO,folderPath, user);
+        String titleImage = itemImageService.save(item, folderPath, titleFile, itemFiles);
         itemRepository.save(item);
+        item.setTitleImage(titleImage);
         return item.getItemId();
 
 
@@ -68,7 +59,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Long updateItem(Long itemId, ItemReqDTO itemReqDTO) {
         Item item = itemRepository.findById(itemId).orElseThrow(() -> new CustomException("존재하지 않는 상품입니다."));
-        //item.updateItem(itemReqDTO.getName(), itemReqDTO.getPrice(), itemReqDTO.getSalePrice(), itemReqDTO.getStockQuantity(), itemReqDTO.getDetail(), itemReqDTO.getStartDate(), itemReqDTO.getTitleImage());
+        item.updateItem(itemReqDTO.getName(), itemReqDTO.getPrice(), itemReqDTO.getSalePrice(), itemReqDTO.getStockQuantity(), itemReqDTO.getDetail(), itemReqDTO.getStartDate());
         itemRepository.save(item);
         return item.getItemId();
 
@@ -77,6 +68,10 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Long deleteItem(Long itemId) {
+        Item item = itemRepository.findById(itemId).orElseThrow(() -> new CustomException("존재하지 않는 상품입니다."));
+        List<String> urls = itemImageRepository.findByItemItemId(itemId);
+        urls.add(item.getTitleImage());
+        urls.stream().forEach(url -> s3Util.deleteFile(url, item.getFolderPath()));
         itemRepository.deleteById(itemId);
         return itemId;
     }

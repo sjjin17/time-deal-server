@@ -46,7 +46,7 @@ public class Item {
 
     private String titleImage;
 
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL )
     private List<ItemImage> itemImageList;
 
     @CreatedDate
@@ -76,14 +76,18 @@ public class Item {
         this.user = user;
     }
 
-    public void updateItem(String name, int price, int salePrice, int stockQuantity, String detail, String startDate, String titleImage) {
+    public void setTitleImage(String titleImage) {
+        this.titleImage = titleImage;
+
+    }
+
+    public void updateItem(String name, int price, int salePrice, int stockQuantity, String detail, String startDate) {
         this.name = name;
         this.price = price;
         this.salePrice = salePrice;
         this.stockQuantity = stockQuantity;
         this.detail = detail;
         this.startDate = LocalDateTime.parse(startDate);
-        this.titleImage = titleImage;
     }
 
 

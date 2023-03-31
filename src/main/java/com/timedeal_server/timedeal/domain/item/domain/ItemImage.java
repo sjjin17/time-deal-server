@@ -29,4 +29,8 @@ public class ItemImage {
         this.item = item;
     }
 
+    public void updateImage(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
 }
