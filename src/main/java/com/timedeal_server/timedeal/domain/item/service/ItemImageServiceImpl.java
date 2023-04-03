@@ -29,10 +29,11 @@ public class ItemImageServiceImpl implements ItemImageService {
         // 폴더의 모든 이미지 삭제 후 다시 저장
         System.out.println(folderPath);
         List<String> urls = itemImageRepository.findByItemItemId(itemId);
-        urls.add(itemRepository.findById(itemId).orElseThrow(() -> new CustomException("존재하지 않는 상품입니다.")).getTitleImage());
+        Item item = itemRepository.findById(itemId).orElseThrow(() -> new CustomException("존재하지 않는 상품입니다."));
+        urls.add(item.getTitleImage());
         urls.stream().forEach(url -> s3Util.deleteFile(url, folderPath));
-        itemImageRepository.deleteAllByItemItemId(itemId);
-        Item item = itemRepository.findById(itemId).orElseThrow(() -> new CustomException("존재하지 않는 상품 번호입니다."));
+        //itemImageRepository.deleteAllByItemItemId(itemId);
+        itemImageRepository.deleteAllByItemId(itemId);
         String titleImage = save(item, folderPath, titleFile, images);
         item.setTitleImage(titleImage);
         itemRepository.save(item);
