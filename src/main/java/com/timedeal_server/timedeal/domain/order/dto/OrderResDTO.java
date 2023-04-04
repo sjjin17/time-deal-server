@@ -1,5 +1,6 @@
 package com.timedeal_server.timedeal.domain.order.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.timedeal_server.timedeal.domain.order.domain.OrderStatus;
 import com.timedeal_server.timedeal.domain.order.domain.Orders;
 import lombok.Builder;
@@ -13,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 public class OrderResDTO {
     private Long orderId;
+    @JsonProperty(value="order_items")
     private List<OrderItemResDTO> orderItemResDTOList;
     private String date;
     private String status;

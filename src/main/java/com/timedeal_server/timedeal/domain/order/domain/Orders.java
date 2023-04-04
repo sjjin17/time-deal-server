@@ -4,6 +4,7 @@ import com.timedeal_server.timedeal.domain.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -29,7 +30,6 @@ public class Orders {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItemList;
-
 
     @Builder
     public Orders(LocalDateTime orderDate, OrderStatus status, User user, List<OrderItem> orderItemList) {
