@@ -1,7 +1,6 @@
 package com.timedeal_server.timedeal.domain.order.service;
 
 import com.timedeal_server.timedeal.domain.item.domain.Item;
-import com.timedeal_server.timedeal.domain.item.dto.ItemResDTO;
 import com.timedeal_server.timedeal.domain.item.repository.ItemRepository;
 import com.timedeal_server.timedeal.domain.order.domain.OrderItem;
 import com.timedeal_server.timedeal.domain.order.domain.OrderStatus;
@@ -19,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -66,17 +64,13 @@ public class OrderServiceImpl implements OrderService {
         return order.getOrderId();
     }
 
+
+
     @Override
     @Transactional(readOnly = true)
     public List<OrderResDTO> getMyOrder(User user) {
-        List<Orders> orderList = orderRepository.findAllByUserUserId(user.getUserId()).orElseThrow(() -> new CustomException("주문 내역이 없습니다."));
-        List<OrderResDTO> orderResDTOList = new ArrayList<>();
-        for (Orders order : orderList) {
-            List<OrderItem> orderItemList = orderItemRepository.findByOrderOrderId(order.getOrderId());
-            List<OrderItemResDTO> orderItemResDTOList = orderItemList.stream().map(orderItem -> OrderItemResDTO.toDto(orderItem)).collect(Collectors.toList());
-            orderResDTOList.add(OrderResDTO.toDto(order, orderItemResDTOList));
-
-        }
+        List<Orders> orderList = orderRepository.findAllByUserId(user.getUserId());
+        List<OrderResDTO> orderResDTOList = orderList.stream().map(order -> OrderResDTO.toDto(order, order.getOrderItemList().stream().map(orderItem -> OrderItemResDTO.toDto(orderItem)).collect(Collectors.toList()))).collect(Collectors.toList());
         return orderResDTOList;
     }
 }
