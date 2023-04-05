@@ -10,6 +10,8 @@ import com.timedeal_server.timedeal.global.api.BasicResponse;
 import com.timedeal_server.timedeal.global.api.CommonResponse;
 import com.timedeal_server.timedeal.global.auth.Auth;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -66,14 +69,12 @@ public class UserController {
     public ResponseEntity<? extends BasicResponse> deleteUser(@Auth User user) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new CommonResponse<>(userService.deleteUser(user)));
-
-
     }
 
     @GetMapping("/users/orders")
-    public ResponseEntity<? extends BasicResponse> getMyOrder(@Auth User user) {
+    public ResponseEntity<? extends BasicResponse> getMyOrder(@Auth User user, @PageableDefault(size = 5, sort="orderId") Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new CommonResponse<>(orderService.getMyOrder(user)));
+                .body(new CommonResponse<>(orderService.getMyOrder(user, pageable)));
     }
 
     @GetMapping("/users/items")

@@ -2,6 +2,7 @@ package com.timedeal_server.timedeal.domain.user.domain;
 
 import com.timedeal_server.timedeal.domain.item.domain.Item;
 import com.timedeal_server.timedeal.domain.order.domain.Orders;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
 
     @Id
