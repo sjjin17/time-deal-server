@@ -4,10 +4,7 @@ import com.timedeal_server.timedeal.domain.item.dto.ItemReqDTO;
 import com.timedeal_server.timedeal.domain.order.domain.OrderItem;
 import com.timedeal_server.timedeal.domain.user.domain.User;
 import com.timedeal_server.timedeal.global.exception.CustomException;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -19,7 +16,7 @@ import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 @ToString
 public class Item {

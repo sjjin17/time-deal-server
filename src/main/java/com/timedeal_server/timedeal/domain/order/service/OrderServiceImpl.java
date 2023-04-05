@@ -5,20 +5,20 @@ import com.timedeal_server.timedeal.domain.item.repository.ItemRepository;
 import com.timedeal_server.timedeal.domain.order.domain.OrderItem;
 import com.timedeal_server.timedeal.domain.order.domain.OrderStatus;
 import com.timedeal_server.timedeal.domain.order.domain.Orders;
-import com.timedeal_server.timedeal.domain.order.dto.OrderItemResDTO;
-import com.timedeal_server.timedeal.domain.order.dto.OrderResDTO;
+import com.timedeal_server.timedeal.domain.order.dto.OrderPageResDTO;
 import com.timedeal_server.timedeal.domain.order.repository.OrderItemRepository;
 import com.timedeal_server.timedeal.domain.order.repository.OrderRepository;
 import com.timedeal_server.timedeal.domain.user.domain.User;
 import com.timedeal_server.timedeal.global.exception.CustomException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -68,9 +68,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<OrderResDTO> getMyOrder(User user) {
-        List<Orders> orderList = orderRepository.findAllByUserId(user.getUserId());
-        List<OrderResDTO> orderResDTOList = orderList.stream().map(order -> OrderResDTO.toDto(order, order.getOrderItemList().stream().map(orderItem -> OrderItemResDTO.toDto(orderItem)).collect(Collectors.toList()))).collect(Collectors.toList());
-        return orderResDTOList;
+    public OrderPageResDTO getMyOrder(User user, Pageable pageable) {
+        Page<Orders> orderList = orderRepository.findAllByUserId(user.getUserId(), pageable);
+        return OrderPageResDTO.toDto(orderList);
+
     }
 }
