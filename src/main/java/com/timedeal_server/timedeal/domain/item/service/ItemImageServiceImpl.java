@@ -32,7 +32,6 @@ public class ItemImageServiceImpl implements ItemImageService {
         Item item = itemRepository.findById(itemId).orElseThrow(() -> new CustomException("존재하지 않는 상품입니다."));
         urls.add(item.getTitleImage());
         urls.stream().forEach(url -> s3Util.deleteFile(url, folderPath));
-        //itemImageRepository.deleteAllByItemItemId(itemId);
         itemImageRepository.deleteAllByItemId(itemId);
         String titleImage = save(item, folderPath, titleFile, images);
         item.setTitleImage(titleImage);
@@ -52,7 +51,6 @@ public class ItemImageServiceImpl implements ItemImageService {
                     .item(item)
                     .build();
             itemImageRepository.save(itemImage);
-            System.out.println("저장!");
             i += 1;
         }
         return titleImage;
