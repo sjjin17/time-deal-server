@@ -10,11 +10,10 @@ import java.util.List;
 
 public interface ItemImageRepository extends JpaRepository<ItemImage, Long> {
     @Modifying(clearAutomatically = true, flushAutomatically = true)
-    @Query(nativeQuery = true, value="delete from ItemImage where ItemImage.item_id=(:itemId)")
+    @Query("delete from ItemImage img where img.item.itemId = :itemId")
     void deleteAllByItemId(@Param("itemId") Long itemId);
 
-
-    @Query(nativeQuery = true, value="select imgUrl from ItemImage where ItemImage.item_id=(:itemId)")
+    @Query("select img.imgUrl from ItemImage img where img.item.itemId=(:itemId)")
     List<String> findByItemItemId(@Param("itemId") Long itemId);
 
 }

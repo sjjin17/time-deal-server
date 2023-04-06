@@ -34,7 +34,6 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
         }
         User user = (User) session.getAttribute("loginUser");
         String role = auth.role().toString();
-        System.out.println(role);
 
         if ("ADMIN".equals(role)) {
             if (role.equals(user.getRole().toString())) {
